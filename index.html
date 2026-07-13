@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Happy Birthday, Simin ❤️ — A Little Corner of the Internet Just For You</title>
+<meta name="description" content="A luxury, cinematic birthday website made with love for Simin." />
+
+<!-- ===================== FONTS ===================== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&family=Poppins:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<!-- ===================== STYLES ===================== -->
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- =========================================================
+     PAGE LOADER — shown while assets/fonts load, then fades out
+     ========================================================= -->
+<div id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-monogram">✦</div>
+    <p class="loader-text">preparing something beautiful<span class="dots"><span>.</span><span>.</span><span>.</span></span></p>
+  </div>
+</div>
+
+<!-- Scroll progress bar -->
+<div id="scroll-progress"><div id="scroll-progress-bar"></div></div>
+
+<!-- Custom elegant cursor (desktop only, hidden via CSS on touch) -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Starry / particle canvas background, fades in with scroll depth -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- Floating decorative sparkles layer (CSS driven) -->
+<div class="sparkle-field" aria-hidden="true"></div>
+
+<!-- =========================================================
+     FLOATING CONTROLS — persistent across the whole page
+     ========================================================= -->
+<div class="floating-controls">
+  <button id="theme-toggle" class="fc-btn" title="Toggle light / dark mode" aria-label="Toggle theme">
+    <span class="fc-icon fc-icon-moon">☾</span>
+    <span class="fc-icon fc-icon-sun">☀</span>
+  </button>
+  <button id="edit-toggle" class="fc-btn" title="Edit this page (PIN protected)" aria-label="Edit page">
+    <span class="fc-icon">✎</span>
+  </button>
+</div>
+
+<button id="back-to-top" class="fc-btn back-to-top" title="Back to top" aria-label="Back to top">↑</button>
+
+<audio id="sfx-blow" preload="none" src="assets/audio/blow-candles.mp3"></audio>
+<audio id="sfx-birthday" preload="none" src="assets/audio/happy-birthday-tune.mp3"></audio>
+<audio id="sfx-chime" preload="none" src="assets/audio/soft-chime.mp3"></audio>
+
+<!-- Hidden file input used by Edit Mode to swap photos -->
+<input type="file" id="image-upload-input" accept="image/*" class="hidden">
+
+<!-- PIN modal — gates entering Edit Mode. First use sets the PIN, every
+     use after that requires it, so only you can edit the page again. -->
+<div id="pin-modal" class="easter-modal hidden">
+  <div class="glass-panel easter-modal-inner">
+    <button class="easter-close" id="pin-modal-close" aria-label="Close">✕</button>
+    <p class="easter-title" id="pin-modal-title">✦ Set an Edit PIN ✦</p>
+    <p id="pin-modal-sub" class="section-note" style="margin-top:-10px;">This protects the page so only you can edit it again.</p>
+    <input type="password" id="pin-input" placeholder="PIN (min 4 characters)" class="pin-field">
+    <input type="password" id="pin-confirm-input" placeholder="Confirm PIN" class="pin-field">
+    <p id="pin-error" class="pin-error hidden"></p>
+    <button id="pin-confirm-btn" class="btn btn-gold pin-submit">✦ Confirm ✦</button>
+  </div>
+</div>
+
+<!-- Edit mode toolbar — appears once the PIN is accepted -->
+<div id="edit-toolbar" class="glass-panel hidden">
+  <span class="edit-toolbar-label">✎ Edit Mode — click any text or photo to change it</span>
+  <div class="edit-toolbar-actions">
+    <button id="edit-cancel-btn" class="btn btn-outline-gold">Pause</button>
+    <button id="edit-done-btn" class="btn btn-gold">✦ Done — Lock &amp; Send ✦</button>
+  </div>
+</div>
+
+<!-- Everything from here to the closing tag near the end of the page is the
+     "content" of the site — the part Edit Mode makes editable, autosaves as
+     a draft, and bundles up when you click Done. -->
+<div id="editable-root">
+
+<!-- =========================================================
+     HERO
+     ========================================================= -->
+<header id="hero" class="section hero">
+  <div class="hero-bg" style="background-image:url('assets/images/misc/hero-bg.jpg')"></div>
+  <div class="hero-overlay"></div>
+
+  <!-- fairy lights strung across the top -->
+  <div class="fairy-lights" aria-hidden="true">
+    <svg viewBox="0 0 1200 80" preserveAspectRatio="none" class="fairy-wire">
+      <path d="M0,10 Q150,90 300,15 T600,15 T900,15 T1200,10" fill="none" stroke="rgba(212,175,100,0.35)" stroke-width="2"/>
+    </svg>
+    <div class="fairy-bulbs">
+      <!-- 14 bulbs positioned via CSS nth-child for a gentle sag -->
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- floating balloons -->
+  <div class="balloons" aria-hidden="true">
+    <div class="balloon balloon-1"></div>
+    <div class="balloon balloon-2"></div>
+    <div class="balloon balloon-3"></div>
+    <div class="balloon balloon-4"></div>
+    <div class="balloon balloon-5"></div>
+  </div>
+
+  <!-- confetti burst on load -->
+  <div id="hero-confetti" class="confetti-layer" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <p class="hero-kicker">✦ For Simin ✦</p>
+    <h1 class="hero-title">
+      <span class="hero-title-line">Happy</span>
+      <span class="hero-title-line hero-title-accent">Birthday <span class="heart">❤️</span></span>
+    </h1>
+    <p class="hero-subtitle">A little corner of the internet made just for you.</p>
+
+    <!-- animated CSS birthday cake -->
+    <div class="hero-cake" aria-hidden="true">
+      <div class="cake-glow"></div>
+      <div class="cake">
+        <div class="candle-row">
+          <div class="candle"><span class="flame"></span></div>
+          <div class="candle candle-tall"><span class="flame"></span></div>
+          <div class="candle"><span class="flame"></span></div>
+        </div>
+        <div class="tier tier-top"><span class="drip"></span><span class="drip"></span><span class="drip"></span></div>
+        <div class="tier tier-mid"><span class="drip"></span><span class="drip"></span><span class="drip"></span><span class="drip"></span></div>
+        <div class="tier tier-base"><span class="drip"></span><span class="drip"></span><span class="drip"></span><span class="drip"></span><span class="drip"></span></div>
+        <div class="cake-plate"></div>
+      </div>
+    </div>
+
+    <a href="#memories" class="btn btn-gold begin-journey">
+      <span>Begin the Journey</span>
+      <span class="btn-arrow">↓</span>
+    </a>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true"><span></span></div>
+</header>
+
+<main>
+
+<!-- =========================================================
+     OUR MEMORIES — masonry gallery + lightbox
+     ========================================================= -->
+<section id="memories" class="section">
+  <div class="section-inner">
+    <p class="eyebrow">✦ Chapter One ✦</p>
+    <h2 class="section-title">Our Memories</h2>
+    <p class="section-lead">Every photo here is a little universe. Click any of them to relive it. <em>(Replace the 20 placeholders in <code>assets/images/memories/</code> with your own photos — same filenames.)</em></p>
+
+    <div class="masonry" id="masonry-gallery">
+      <!-- 20 memory cards. data-caption is optional and editable. -->
+      <!-- Loop-like structure repeated manually for static hosting simplicity -->
+      <figure class="masonry-item" data-caption="The day it all began"><img loading="lazy" src="assets/images/memories/mem-01.jpg" alt="Memory 1"></figure>
+      <figure class="masonry-item" data-caption="Laughing until it hurt"><img loading="lazy" src="assets/images/memories/mem-02.jpg" alt="Memory 2"></figure>
+      <figure class="masonry-item" data-caption="That spontaneous road trip"><img loading="lazy" src="assets/images/memories/mem-03.jpg" alt="Memory 3"></figure>
+      <figure class="masonry-item" data-caption="Our favorite café corner"><img loading="lazy" src="assets/images/memories/mem-04.jpg" alt="Memory 4"></figure>
+      <figure class="masonry-item" data-caption="Dressed up for no reason"><img loading="lazy" src="assets/images/memories/mem-05.jpg" alt="Memory 5"></figure>
+      <figure class="masonry-item" data-caption="Late night phone calls"><img loading="lazy" src="assets/images/memories/mem-06.jpg" alt="Memory 6"></figure>
+      <figure class="masonry-item" data-caption="Celebrating a big win"><img loading="lazy" src="assets/images/memories/mem-07.jpg" alt="Memory 7"></figure>
+      <figure class="masonry-item" data-caption="Sunset, the two of us"><img loading="lazy" src="assets/images/memories/mem-08.jpg" alt="Memory 8"></figure>
+      <figure class="masonry-item" data-caption="A birthday from years ago"><img loading="lazy" src="assets/images/memories/mem-09.jpg" alt="Memory 9"></figure>
+      <figure class="masonry-item" data-caption="Getting lost together"><img loading="lazy" src="assets/images/memories/mem-10.jpg" alt="Memory 10"></figure>
+      <figure class="masonry-item" data-caption="The trip we still talk about"><img loading="lazy" src="assets/images/memories/mem-11.jpg" alt="Memory 11"></figure>
+      <figure class="masonry-item" data-caption="Silly faces, no regrets"><img loading="lazy" src="assets/images/memories/mem-12.jpg" alt="Memory 12"></figure>
+      <figure class="masonry-item" data-caption="A quiet moment worth keeping"><img loading="lazy" src="assets/images/memories/mem-13.jpg" alt="Memory 13"></figure>
+      <figure class="masonry-item" data-caption="Dancing in the kitchen"><img loading="lazy" src="assets/images/memories/mem-14.jpg" alt="Memory 14"></figure>
+      <figure class="masonry-item" data-caption="Our tradition, every year"><img loading="lazy" src="assets/images/memories/mem-15.jpg" alt="Memory 15"></figure>
+      <figure class="masonry-item" data-caption="Through the hard days too"><img loading="lazy" src="assets/images/memories/mem-16.jpg" alt="Memory 16"></figure>
+      <figure class="masonry-item" data-caption="Somewhere new, together"><img loading="lazy" src="assets/images/memories/mem-17.jpg" alt="Memory 17"></figure>
+      <figure class="masonry-item" data-caption="The photo that says it all"><img loading="lazy" src="assets/images/memories/mem-18.jpg" alt="Memory 18"></figure>
+      <figure class="masonry-item" data-caption="Just an ordinary perfect day"><img loading="lazy" src="assets/images/memories/mem-19.jpg" alt="Memory 19"></figure>
+      <figure class="masonry-item" data-caption="More memories to come"><img loading="lazy" src="assets/images/memories/mem-20.jpg" alt="Memory 20"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- lightbox markup (single instance, reused by JS) -->
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+  <button class="lightbox-close" aria-label="Close">✕</button>
+  <button class="lightbox-nav lightbox-prev" aria-label="Previous">‹</button>
+  <figure class="lightbox-figure">
+    <img id="lightbox-img" src="" alt="">
+    <figcaption id="lightbox-caption"></figcaption>
+  </figure>
+  <button class="lightbox-nav lightbox-next" aria-label="Next">›</button>
+</div>
+
+<!-- =========================================================
+     FRIENDSHIP TIMER
+     ========================================================= -->
+<section id="friendship-timer" class="section alt-bg">
+  <div class="section-inner center">
+    <p class="eyebrow">✦ Since August 2014 ✦</p>
+    <h2 class="section-title">A Friendship Measured in Years</h2>
+    <div class="glass-panel counter-panel">
+      <div class="counter-grid">
+        <div class="counter-block"><span class="counter-num" data-target-id="years" id="count-years">0</span><span class="counter-label">Years</span></div>
+        <div class="counter-block"><span class="counter-num" id="count-months">0</span><span class="counter-label">Months</span></div>
+        <div class="counter-block"><span class="counter-num" id="count-days">0</span><span class="counter-label">Days</span></div>
+      </div>
+      <p class="counter-footnote">That's over <strong id="count-total-days">0</strong> beautiful days of friendship.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     BIRTHDAY COUNTDOWN
+     ========================================================= -->
+<section id="countdown" class="section">
+  <div class="section-inner center">
+    <p class="eyebrow">✦ The Big Day Is Coming ✦</p>
+    <h2 class="section-title">Counting Down To You</h2>
+    <p class="section-lead">Edit <code>CONFIG.birthdayDate</code> in <code>js/script.js</code> to set the exact date.</p>
+    <div class="glass-panel countdown-panel">
+      <div class="countdown-grid">
+        <div class="countdown-block"><span class="countdown-num" id="cd-days">00</span><span class="countdown-label">Days</span></div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-block"><span class="countdown-num" id="cd-hours">00</span><span class="countdown-label">Hours</span></div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-block"><span class="countdown-num" id="cd-minutes">00</span><span class="countdown-label">Minutes</span></div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-block"><span class="countdown-num" id="cd-seconds">00</span><span class="countdown-label">Seconds</span></div>
+      </div>
+      <p id="countdown-arrived" class="countdown-arrived hidden">It's here — happy birthday! ✦</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     MEMORY OF THE DAY (bonus)
+     ========================================================= -->
+<section id="memory-of-day" class="section alt-bg">
+  <div class="section-inner center">
+    <p class="eyebrow">✦ A Little Surprise ✦</p>
+    <h2 class="section-title">Memory of the Day</h2>
+    <div class="glass-panel motd-panel">
+      <p id="motd-text" class="motd-text">Click below for a random memory.</p>
+      <button id="motd-btn" class="btn btn-outline-gold">✦ Show Me a Memory ✦</button>
+    </div>
+    <p class="section-note">Edit the list in <code>CONFIG.memories</code> inside <code>js/script.js</code>.</p>
+  </div>
+</section>
+
+<!-- =========================================================
+     FAVORITE FLOWERS
+     ========================================================= -->
+<section id="flowers" class="section">
+  <div class="section-inner">
+    <p class="eyebrow">✦ Always in Bloom ✦</p>
+    <h2 class="section-title">Favorite Flowers</h2>
+    <div class="card-grid flower-grid">
+      <div class="flip-flower-card">
+        <img loading="lazy" src="assets/images/flowers/roses.jpg" alt="Roses">
+        <div class="flower-info"><h3>Roses</h3><p>Timeless, romantic, and endlessly elegant — just like you.</p></div>
+      </div>
+      <div class="flip-flower-card">
+        <img loading="lazy" src="assets/images/flowers/tulips.jpg" alt="Tulips">
+        <div class="flower-info"><h3>Tulips</h3><p>Graceful and bright, a quiet kind of joy.</p></div>
+      </div>
+      <div class="flip-flower-card">
+        <img loading="lazy" src="assets/images/flowers/peonies.jpg" alt="Peonies">
+        <div class="flower-info"><h3>Peonies</h3><p>Lush, romantic, and full of soft luxury.</p></div>
+      </div>
+      <div class="flip-flower-card">
+        <img loading="lazy" src="assets/images/flowers/hydrangeas.jpg" alt="Hydrangeas">
+        <div class="flower-info"><h3>Hydrangeas</h3><p>Dreamy clusters of color, gentle and abundant.</p></div>
+      </div>
+      <div class="flip-flower-card">
+        <img loading="lazy" src="assets/images/flowers/babys-breath.jpg" alt="Baby's Breath">
+        <div class="flower-info"><h3>Baby's Breath</h3><p>Delicate, understated, quietly beautiful.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     FAVORITE COLOR
+     ========================================================= -->
+<section id="favorite-color" class="section alt-bg">
+  <div class="section-inner center">
+    <p class="eyebrow">✦ Her Signature Shade ✦</p>
+    <h2 class="section-title">Favorite Color: Maroon</h2>
+    <div class="color-splash" aria-hidden="true">
+      <span class="splash s1"></span><span class="splash s2"></span><span class="splash s3"></span>
+      <span class="splash s4"></span><span class="splash s5"></span>
+    </div>
+    <div class="palette-row">
+      <div class="swatch" style="background:#5c0f1f"><span>Maroon</span></div>
+      <div class="swatch" style="background:#d4af64"><span>Champagne Gold</span></div>
+      <div class="swatch" style="background:#f5efe3"><span>Ivory</span></div>
+      <div class="swatch" style="background:#e6ddc9"><span>Soft Beige</span></div>
+      <div class="swatch" style="background:#2a0810"><span>Deep Wine</span></div>
+    </div>
+    <blockquote class="color-quote">"Colors are the smiles of nature — and maroon has always been the color of quiet strength and grace."</blockquote>
+  </div>
+</section>
+
+<!-- =========================================================
+     KURDISH HERITAGE
+     ========================================================= -->
+<section id="kurdish" class="section kurdish-section">
+  <div class="kurdish-pattern-top" aria-hidden="true"></div>
+  <div class="section-inner">
+    <p class="eyebrow">✦ A Proud Heritage ✦</p>
+    <h2 class="section-title">Kurdish Elegance</h2>
+    <p class="section-lead">Celebrating the beauty and grace of Kurdish traditional dress.</p>
+    <div class="card-grid kurdish-grid">
+      <figure class="kurdish-card"><img loading="lazy" src="assets/images/kurdish/kurdish-1.jpg" alt="Kurdish traditional dress 1"><figcaption>Traditional Elegance I</figcaption></figure>
+      <figure class="kurdish-card"><img loading="lazy" src="assets/images/kurdish/kurdish-2.jpg" alt="Kurdish traditional dress 2"><figcaption>Traditional Elegance II</figcaption></figure>
+      <figure class="kurdish-card"><img loading="lazy" src="assets/images/kurdish/kurdish-3.jpg" alt="Kurdish traditional dress 3"><figcaption>Traditional Elegance III</figcaption></figure>
+      <figure class="kurdish-card"><img loading="lazy" src="assets/images/kurdish/kurdish-4.jpg" alt="Kurdish traditional dress 4"><figcaption>Traditional Elegance IV</figcaption></figure>
+    </div>
+  </div>
+  <div class="kurdish-pattern-bottom" aria-hidden="true"></div>
+</section>
+
+<!-- =========================================================
+     HORSES
+     ========================================================= -->
+<section id="horses" class="section horses-section">
+  <div class="horses-parallax-bg" data-parallax></div>
+  <div class="horse-silhouette hs-1" aria-hidden="true"></div>
+  <div class="horse-silhouette hs-2" aria-hidden="true"></div>
+  <div class="section-inner center">
+    <p class="eyebrow">✦ Wild at Heart ✦</p>
+    <h2 class="section-title light">Horses</h2>
+    <div class="card-grid horse-grid">
+      <figure class="horse-card"><img loading="lazy" src="assets/images/horses/horse-1.jpg" alt="Horse 1"></figure>
+      <figure class="horse-card"><img loading="lazy" src="assets/images/horses/horse-2.jpg" alt="Horse 2"></figure>
+      <figure class="horse-card"><img loading="lazy" src="assets/images/horses/horse-3.jpg" alt="Horse 3"></figure>
+    </div>
+    <blockquote class="horse-quote">"Grace, freedom, and strength."</blockquote>
+  </div>
+</section>
+
+<!-- =========================================================
+     LUXURY FASHION BRANDS
+     ========================================================= -->
+<section id="brands" class="section">
+  <div class="section-inner">
+    <p class="eyebrow">✦ Impeccable Taste ✦</p>
+    <h2 class="section-title">Luxury Fashion Houses</h2>
+    <div class="card-grid brand-grid">
+
+      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/louis-vuitton-logo.png" alt="Louis Vuitton logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/louis-vuitton.jpg" alt="Louis Vuitton"><h3>Louis Vuitton</h3><p>The house of iconic trunks and timeless monogram artistry.</p></div>
+
+      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/gucci-logo.png" alt="Gucci logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/gucci.jpg" alt="Gucci"><h3>Gucci</h3><p>Bold, eclectic, unapologetically glamorous Italian luxury.</p></div>
+
+      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/chanel-logo.png" alt="Chanel logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/chanel.jpg" alt="Chanel"><h3>Chanel</h3><p>Parisian elegance, refined and eternally chic.</p></div>
+
+      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/dior-logo.png" alt="Dior logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/dior.jpg" alt="Dior"><h3>Dior</h3><p>Couture romance and architectural femininity.</p></div>
+
+      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/hermes-logo.png" alt="Hermès logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/hermes.jpg" alt="Hermès"><h3>Hermès</h3><p>Quiet luxury, masterful craftsmanship, understated prestige.</p></div>
+
+      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/prada-logo.png" alt="Prada logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/prada.jpg" alt="Prada"><h3>Prada</h3><p>Intellectual, minimal, quietly rebellious luxury.</p></div>
+
+      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/valentino-logo.png" alt="Valentino logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/valentino.jpg" alt="Valentino"><h3>Valentino</h3><p>Romantic Roman couture, dramatic and dreamlike.</p></div>
+
+      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/ysl-logo.png" alt="YSL logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/ysl.jpg" alt="Yves Saint Laurent"><h3>Yves Saint Laurent</h3><p>Sleek, rebellious, effortlessly powerful style.</p></div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     LUXURY PERFUME COLLECTION
+     ========================================================= -->
+<section id="perfumes" class="section alt-bg">
+  <div class="section-inner">
+    <p class="eyebrow">✦ Signature Scents ✦</p>
+    <h2 class="section-title">Perfume Collection</h2>
+    <div class="card-grid perfume-grid">
+
+      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/louis-vuitton.jpg" alt="Louis Vuitton perfume"><h3>Louis Vuitton</h3><p class="fragrance-family">Floral / Oriental</p></div>
+      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/gucci.jpg" alt="Gucci perfume"><h3>Gucci</h3><p class="fragrance-family">Floral / Woody</p></div>
+      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/dior.jpg" alt="Dior perfume"><h3>Dior</h3><p class="fragrance-family">Oriental / Vanilla</p></div>
+      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/chanel.jpg" alt="Chanel perfume"><h3>Chanel</h3><p class="fragrance-family">Floral Aldehyde</p></div>
+      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/tom-ford.jpg" alt="Tom Ford perfume"><h3>Tom Ford</h3><p class="fragrance-family">Amber / Spicy</p></div>
+      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/mfk.jpg" alt="Maison Francis Kurkdjian perfume"><h3>Maison Francis Kurkdjian</h3><p class="fragrance-family">Musk / Floral</p></div>
+      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/creed.jpg" alt="Creed perfume"><h3>Creed</h3><p class="fragrance-family">Fruity / Woody</p></div>
+      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/byredo.jpg" alt="Byredo perfume"><h3>Byredo</h3><p class="fragrance-family">Minimalist / Woody</p></div>
+      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/xerjoff.jpg" alt="Xerjoff perfume"><h3>Xerjoff</h3><p class="fragrance-family">Opulent / Oriental</p></div>
+      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/parfums-de-marly.jpg" alt="Parfums de Marly perfume"><h3>Parfums de Marly</h3><p class="fragrance-family">Royal / Floral</p></div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     FAVORITE THINGS
+     ========================================================= -->
+<section id="favorite-things" class="section">
+  <div class="section-inner">
+    <p class="eyebrow">✦ All Things You ✦</p>
+    <h2 class="section-title">Favorite Things</h2>
+    <div class="icon-grid">
+      <div class="icon-card"><span class="icon-glyph">✿</span><h4>Flower</h4><p>Roses</p></div>
+      <div class="icon-card"><span class="icon-glyph">☕</span><h4>Food</h4><p>Add her favorite dish</p></div>
+      <div class="icon-card"><span class="icon-glyph">✦</span><h4>Perfume</h4><p>Add her signature scent</p></div>
+      <div class="icon-card"><span class="icon-glyph">👜</span><h4>Clothing Brand</h4><p>Add her favorite brand</p></div>
+      <div class="icon-card"><span class="icon-glyph">◆</span><h4>Color</h4><p>Maroon</p></div>
+      <div class="icon-card"><span class="icon-glyph">✈</span><h4>Place</h4><p>Add her favorite place</p></div>
+      <div class="icon-card"><span class="icon-glyph">♫</span><h4>Hobby</h4><p>Add her favorite hobby</p></div>
+      <div class="icon-card"><span class="icon-glyph">🎬</span><h4>Movie</h4><p>Add her favorite movie</p></div>
+      <div class="icon-card"><span class="icon-glyph">♪</span><h4>Music</h4><p>Add her favorite artist</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     REASONS YOU'RE AMAZING — flip cards
+     ========================================================= -->
+<section id="reasons" class="section alt-bg">
+  <div class="section-inner">
+    <p class="eyebrow">✦ Just a Few Reasons ✦</p>
+    <h2 class="section-title">Reasons You're Amazing</h2>
+    <p class="section-lead">Hover (or tap) each card to flip it.</p>
+    <div class="card-grid flip-grid">
+      <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><span class="flip-icon">✦</span><h3>Kindness</h3></div><div class="flip-card-back"><p>The way you make everyone around you feel seen.</p></div></div></div>
+      <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><span class="flip-icon">✦</span><h3>Loyalty</h3></div><div class="flip-card-back"><p>You've shown up for me more times than I can count.</p></div></div></div>
+      <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><span class="flip-icon">✦</span><h3>Your Smile</h3></div><div class="flip-card-back"><p>It genuinely makes hard days easier.</p></div></div></div>
+      <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><span class="flip-icon">✦</span><h3>Your Heart</h3></div><div class="flip-card-back"><p>So much bigger than you give yourself credit for.</p></div></div></div>
+      <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><span class="flip-icon">✦</span><h3>Elegance</h3></div><div class="flip-card-back"><p>You carry yourself with a grace that's entirely your own.</p></div></div></div>
+      <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><span class="flip-icon">✦</span><h3>Ambition</h3></div><div class="flip-card-back"><p>Watching you chase your dreams inspires me daily.</p></div></div></div>
+      <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><span class="flip-icon">✦</span><h3>Positivity</h3></div><div class="flip-card-back"><p>You find light in places most people miss.</p></div></div></div>
+      <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><span class="flip-icon">✦</span><h3>Strength</h3></div><div class="flip-card-back"><p>You've overcome more than most people ever see.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     REASONS I'M GRATEFUL FOR YOU (bonus, distinct animated cards)
+     ========================================================= -->
+<section id="gratitude" class="section">
+  <div class="section-inner">
+    <p class="eyebrow">✦ From the Heart ✦</p>
+    <h2 class="section-title">Reasons I'm Grateful For You</h2>
+    <div class="gratitude-list">
+      <div class="gratitude-card"><span class="gratitude-num">01</span><p>For every late-night conversation that turned into morning.</p></div>
+      <div class="gratitude-card"><span class="gratitude-num">02</span><p>For never letting me feel alone, even from far away.</p></div>
+      <div class="gratitude-card"><span class="gratitude-num">03</span><p>For celebrating my wins like they were your own.</p></div>
+      <div class="gratitude-card"><span class="gratitude-num">04</span><p>For the honesty I can always count on.</p></div>
+      <div class="gratitude-card"><span class="gratitude-num">05</span><p>For simply choosing to stay, year after year.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     FRIENDSHIP TIMELINE
+     ========================================================= -->
+<section id="timeline" class="section alt-bg">
+  <div class="section-inner">
+    <p class="eyebrow">✦ Our Story So Far ✦</p>
+    <h2 class="section-title">Friendship Timeline</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content glass-panel">
+          <span class="timeline-date">August 2014</span>
+          <h3>We Met</h3>
+          <p>Edit this with the story of how it all started.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content glass-panel">
+          <span class="timeline-date">Edit date</span>
+          <h3>First Unforgettable Memory</h3>
+          <p>Describe the moment that made you know this friendship was special.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content glass-panel">
+          <span class="timeline-date">Edit date</span>
+          <h3>Our Funniest Day</h3>
+          <p>The story you still can't tell without laughing.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content glass-panel">
+          <span class="timeline-date">Edit date</span>
+          <h3>Graduation</h3>
+          <p>A milestone you shared, side by side.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content glass-panel">
+          <span class="timeline-date">Edit date</span>
+          <h3>Special Birthdays</h3>
+          <p>The birthdays that meant the most, together.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content glass-panel">
+          <span class="timeline-date">The Future</span>
+          <h3>Future Adventures</h3>
+          <p>Everything still ahead of us — the best is yet to come.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     MEMORY WALL — polaroid scrapbook
+     ========================================================= -->
+<section id="memory-wall" class="section corkboard">
+  <div class="section-inner">
+    <p class="eyebrow">✦ Pinned With Love ✦</p>
+    <h2 class="section-title">Memory Wall</h2>
+    <p class="section-lead">Add photos, notes, and screenshots below — each one styled like a pinned Polaroid.</p>
+    <div class="polaroid-board">
+      <div class="polaroid p-rot-1"><img loading="lazy" src="assets/images/memories/mem-05.jpg" alt="Polaroid memory"><p>"Best day ever" — add your note</p></div>
+      <div class="polaroid p-rot-2"><img loading="lazy" src="assets/images/memories/mem-08.jpg" alt="Polaroid memory"><p>Add a funny story here</p></div>
+      <div class="polaroid p-rot-3"><img loading="lazy" src="assets/images/memories/mem-12.jpg" alt="Polaroid memory"><p>A favorite screenshot / memory</p></div>
+      <div class="polaroid p-rot-4"><img loading="lazy" src="assets/images/memories/mem-15.jpg" alt="Polaroid memory"><p>Small note goes here ✦</p></div>
+      <div class="polaroid p-rot-5"><img loading="lazy" src="assets/images/memories/mem-18.jpg" alt="Polaroid memory"><p>Another memory worth keeping</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     POLAROID CAROUSEL (bonus)
+     ========================================================= -->
+<section id="polaroid-carousel-section" class="section alt-bg">
+  <div class="section-inner center">
+    <p class="eyebrow">✦ On Repeat ✦</p>
+    <h2 class="section-title">Polaroid Carousel</h2>
+    <div class="carousel" id="polaroid-carousel">
+      <button class="carousel-btn carousel-prev" aria-label="Previous">‹</button>
+      <div class="carousel-track" id="carousel-track">
+        <div class="carousel-slide"><img loading="lazy" src="assets/images/memories/mem-02.jpg" alt="Carousel photo"></div>
+        <div class="carousel-slide"><img loading="lazy" src="assets/images/memories/mem-06.jpg" alt="Carousel photo"></div>
+        <div class="carousel-slide"><img loading="lazy" src="assets/images/memories/mem-10.jpg" alt="Carousel photo"></div>
+        <div class="carousel-slide"><img loading="lazy" src="assets/images/memories/mem-14.jpg" alt="Carousel photo"></div>
+        <div class="carousel-slide"><img loading="lazy" src="assets/images/memories/mem-19.jpg" alt="Carousel photo"></div>
+      </div>
+      <button class="carousel-btn carousel-next" aria-label="Next">›</button>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     INTERACTIVE WORLD MAP (bonus)
+     ========================================================= -->
+<section id="world-map" class="section">
+  <div class="section-inner">
+    <p class="eyebrow">✦ Everywhere We've Been (and Will Go) ✦</p>
+    <h2 class="section-title">Places Together</h2>
+    <div class="map-wrap glass-panel">
+      <div class="map-bg" style="background-image:url('assets/images/misc/world-map.jpg')"></div>
+      <!-- Pins positioned by top/left percentage — edit in js CONFIG.mapPins -->
+      <div id="map-pins"></div>
+    </div>
+    <div class="map-legend">
+      <span><i class="dot visited"></i> Visited together</span>
+      <span><i class="dot dream"></i> Dream destination</span>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     FUTURE BUCKET LIST (bonus)
+     ========================================================= -->
+<section id="bucket-list" class="section alt-bg">
+  <div class="section-inner">
+    <p class="eyebrow">✦ Still To Come ✦</p>
+    <h2 class="section-title">Our Future Bucket List</h2>
+    <ul class="bucket-list">
+      <li class="bucket-item"><span class="bucket-check">✦</span> Take a spontaneous weekend trip somewhere neither of us has been</li>
+      <li class="bucket-item"><span class="bucket-check">✦</span> Go to a concert of our favorite artist together</li>
+      <li class="bucket-item"><span class="bucket-check">✦</span> Plan the ultimate girls' vacation</li>
+      <li class="bucket-item"><span class="bucket-check">✦</span> Try that restaurant we keep saying we'll visit</li>
+      <li class="bucket-item"><span class="bucket-check">✦</span> Celebrate a milestone birthday somewhere unforgettable</li>
+      <li class="bucket-item"><span class="bucket-check">✦</span> Add your own dream here</li>
+    </ul>
+  </div>
+</section>
+
+<!-- =========================================================
+     INTERACTIVE BIRTHDAY CAKE
+     ========================================================= -->
+<section id="cake" class="section cake-section">
+  <div class="section-inner center">
+    <p class="eyebrow">✦ Make a Wish ✦</p>
+    <h2 class="section-title">Light the Candles</h2>
+    <p class="section-lead">Tap the candles to light them, then blow (or click) to make a wish.</p>
+
+    <div class="interactive-cake-wrap">
+      <div class="confetti-layer" id="cake-confetti" aria-hidden="true"></div>
+      <div class="interactive-cake" id="interactive-cake">
+        <div class="ic-candles">
+          <button class="ic-candle" data-lit="false" aria-label="Light candle 1"><span class="ic-flame"></span></button>
+          <button class="ic-candle" data-lit="false" aria-label="Light candle 2"><span class="ic-flame"></span></button>
+          <button class="ic-candle ic-candle-tall" data-lit="false" aria-label="Light candle 3"><span class="ic-flame"></span></button>
+          <button class="ic-candle" data-lit="false" aria-label="Light candle 4"><span class="ic-flame"></span></button>
+          <button class="ic-candle" data-lit="false" aria-label="Light candle 5"><span class="ic-flame"></span></button>
+        </div>
+        <div class="ic-tier ic-tier-top"></div>
+        <div class="ic-tier ic-tier-mid"></div>
+        <div class="ic-tier ic-tier-base"></div>
+        <div class="ic-plate"></div>
+      </div>
+    </div>
+    <div class="cake-actions">
+      <button id="light-all-btn" class="btn btn-outline-gold">✦ Light All Candles</button>
+      <button id="blow-btn" class="btn btn-gold">💨 Blow Out & Wish</button>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     OPEN YOUR GIFT (bonus)
+     ========================================================= -->
+<section id="gift" class="section alt-bg">
+  <div class="section-inner center">
+    <p class="eyebrow">✦ One More Thing ✦</p>
+    <h2 class="section-title">A Small Surprise</h2>
+    <div class="gift-wrap">
+      <button id="gift-box" class="gift-box" aria-label="Open your gift">
+        <span class="gift-lid"></span>
+        <span class="gift-base"></span>
+        <span class="gift-ribbon-v"></span>
+        <span class="gift-ribbon-h"></span>
+        <span class="gift-bow">✦</span>
+      </button>
+      <p class="gift-hint">Open Your Gift</p>
+      <div id="gift-message" class="glass-panel gift-message hidden">
+        <p>Edit this surprise message in <code>CONFIG.giftMessage</code> — a coupon for a coffee date, a promise, an inside joke, anything you like.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     BIRTHDAY MESSAGE — handwritten letter
+     ========================================================= -->
+<section id="letter" class="section letter-section">
+  <div class="section-inner center">
+    <p class="eyebrow">✦ From Me To You ✦</p>
+    <h2 class="section-title">A Letter For You</h2>
+    <div class="letter-paper glass-panel">
+      <p class="letter-para">My dearest Simin,</p>
+      <p class="letter-para">[Edit this paragraph — write about how you met, or the first thing you remember loving about her.]</p>
+      <p class="letter-para">[Edit this paragraph — talk about a specific memory that still makes you smile.]</p>
+      <p class="letter-para">[Edit this paragraph — say what her friendship means to you, honestly and simply.]</p>
+      <p class="letter-para">[Edit this paragraph — your wishes for her this year, and every year after.]</p>
+      <p class="letter-signoff">With all my love,<br>[Your Name]</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     DIGITAL GUESTBOOK (bonus)
+     ========================================================= -->
+<section id="guestbook" class="section">
+  <div class="section-inner center">
+    <p class="eyebrow">✦ Leave Your Love ✦</p>
+    <h2 class="section-title">Guestbook</h2>
+    <p class="section-lead">Friends and family can leave a birthday wish below. (Saved locally in this browser — for a shared guestbook, connect a small backend or form service.)</p>
+    <form id="guestbook-form" class="guestbook-form glass-panel">
+      <input type="text" id="gb-name" placeholder="Your name" required maxlength="40">
+      <textarea id="gb-message" placeholder="Leave a birthday wish..." required maxlength="280"></textarea>
+      <button type="submit" class="btn btn-gold">✦ Sign the Guestbook</button>
+    </form>
+    <div id="guestbook-entries" class="guestbook-entries"></div>
+  </div>
+</section>
+
+<!-- =========================================================
+     ENDING — cinematic finale
+     ========================================================= -->
+<section id="ending" class="section ending-section">
+  <div class="stars-layer" aria-hidden="true"></div>
+  <div class="lanterns-layer" aria-hidden="true">
+    <span class="lantern l1"></span><span class="lantern l2"></span><span class="lantern l3"></span>
+    <span class="lantern l4"></span><span class="lantern l5"></span>
+  </div>
+  <div id="fireworks-layer" class="fireworks-layer" aria-hidden="true"></div>
+  <div id="ending-confetti" class="confetti-layer" aria-hidden="true"></div>
+
+  <div class="section-inner center ending-content">
+    <p class="ending-line ending-line-1">Thank you for being one of the best parts of my life.</p>
+    <h2 class="ending-title">Happy Birthday <span class="heart">❤️</span></h2>
+    <p class="ending-line ending-line-2">May this year bring you happiness, success, health, and every dream you've wished for.</p>
+    <button id="replay-fireworks" class="btn btn-outline-gold">✦ Celebrate Again ✦</button>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Made with <span class="footer-heart" id="easter-egg-trigger" title="✦">❤</span> for the best friend anyone could ask for.</p>
+</footer>
+
+<!-- Easter egg modal -->
+<div id="easter-egg-modal" class="easter-modal hidden">
+  <div class="glass-panel easter-modal-inner">
+    <button class="easter-close" aria-label="Close">✕</button>
+    <p class="easter-title">✦ You Found the Secret ✦</p>
+    <p id="easter-message">Edit this hidden message— a secret only she'll understand.</p>
+  </div>
+</div>
+
+</div><!-- /editable-root -->
+
+<!-- ===================== SCRIPTS ===================== -->
+<script src="js/script.js"></script>
+</body>
+</html>
