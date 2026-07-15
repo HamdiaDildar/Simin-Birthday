@@ -626,6 +626,12 @@ function initThemeToggle() {
      send. The page also stays locked for any other visitor by default.
    ------------------------------------------------------------------------- */
 const DRAFT_KEY = "birthdaySiteDraftHTML";
+const DRAFT_VERSION_KEY = "birthdaySiteDraftVersion";
+// Bump this string any time the site's base markup changes (new sections,
+// emptied galleries, etc). A saved draft only gets restored if its stored
+// version matches this one — otherwise it's treated as stale and cleared,
+// so old in-progress edits never silently override a fresh deploy.
+const BUILD_VERSION = "2026-07-15-empty-galleries";
 
 // Shown in a freshly-added photo slot until you upload a real image.
 const BLANK_PLACEHOLDER = "data:image/svg+xml;utf8," + encodeURIComponent(
@@ -735,7 +741,16 @@ function setPinHash(hash) {
 function restoreDraftIfAny() {
   const root = document.getElementById("editable-root");
   const saved = localStorage.getItem(DRAFT_KEY);
-  if (root && saved) root.innerHTML = saved;
+  const savedVersion = localStorage.getItem(DRAFT_VERSION_KEY);
+  if (!root || !saved) return;
+  if (savedVersion !== BUILD_VERSION) {
+    // Draft was saved against an older version of the page markup — discard
+    // it rather than let stale content override a fresh deploy.
+    localStorage.removeItem(DRAFT_KEY);
+    localStorage.removeItem(DRAFT_VERSION_KEY);
+    return;
+  }
+  root.innerHTML = saved;
 }
 
 function cleanNodeForExport(node) {
@@ -752,6 +767,7 @@ function saveDraft() {
   if (!root) return;
   const clone = cleanNodeForExport(root.cloneNode(true));
   localStorage.setItem(DRAFT_KEY, clone.innerHTML);
+  localStorage.setItem(DRAFT_VERSION_KEY, BUILD_VERSION);
 }
 
 let draftSaveTimer = null;
