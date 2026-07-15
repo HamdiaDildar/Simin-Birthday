@@ -315,6 +315,23 @@ body.edit-mode .caption-edit-badge{ display:flex; }
 .gallery-add-tile span{ font-family:var(--font-body); font-size:.75rem; letter-spacing:.06em; text-transform:uppercase; }
 .gallery-add-tile:hover{ background:rgba(212,175,100,0.14); transform:translateY(-4px); }
 body.edit-mode .gallery-add-tile{ display:flex; }
+
+/* ---- Toast notifications ---- */
+#toast-container{
+  position:fixed; left:50%; bottom:100px; transform:translateX(-50%);
+  z-index:920; display:flex; flex-direction:column; gap:10px; align-items:center;
+  pointer-events:none;
+}
+.toast{
+  display:flex; align-items:center; gap:14px; padding:12px 18px; border-radius:999px;
+  background:rgba(23,4,8,0.92); border:1px solid var(--gold-500); color:var(--ivory);
+  font-size:.85rem; box-shadow:0 10px 30px rgba(0,0,0,0.4);
+  opacity:0; transform:translateY(16px); transition:opacity .3s var(--ease-lux), transform .3s var(--ease-lux);
+  pointer-events:auto;
+}
+.toast.show{ opacity:1; transform:translateY(0); }
+.toast button{ color:var(--gold-300); font-weight:700; text-decoration:underline; white-space:nowrap; }
+html[data-theme="light"] .toast{ background:rgba(246,241,230,0.95); color:var(--maroon-900); }
 html[data-theme="light"] .item-delete-badge,
 html[data-theme="light"] .caption-edit-badge{ background:rgba(246,241,230,0.9); color:var(--maroon-800); border-color:var(--gold-700); }
 html[data-theme="light"] .gallery-add-tile{ background:rgba(101,18,34,0.05); color:var(--maroon-700); border-color:var(--gold-700); }
