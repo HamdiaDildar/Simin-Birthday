@@ -693,6 +693,37 @@ function simpleHash(str) {
   return String(h);
 }
 
+// Shows a small "message + Undo" toast for a few seconds. No blocking dialogs
+// (native confirm() can be flaky across browsers), so deleting a photo is a
+// single click, and undoing is just as easy.
+function showUndoToast(message, onUndo) {
+  const container = document.getElementById("toast-container");
+  if (!container) return;
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  const text = document.createElement("span");
+  text.textContent = message;
+  const undoBtn = document.createElement("button");
+  undoBtn.type = "button";
+  undoBtn.textContent = "Undo";
+  let undone = false;
+  undoBtn.addEventListener("click", () => {
+    undone = true;
+    onUndo();
+    remove();
+  });
+  toast.appendChild(text);
+  toast.appendChild(undoBtn);
+  container.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add("show"));
+
+  function remove() {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 350);
+  }
+  setTimeout(() => { if (!undone) remove(); }, 5000);
+}
+
 function getPinHash() {
   return document.body.dataset.pinHash || localStorage.getItem("sitePinHash") || "";
 }
@@ -842,8 +873,18 @@ function initEditMode() {
     del.innerHTML = "✕";
     del.title = "Remove this photo";
     del.addEventListener("click", (e) => {
-      e.preventDefault(); e.stopPropagation();
-      if (confirm("Remove this photo?")) { item.remove(); scheduleDraftSave(); }
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      const parent = item.parentElement;
+      const nextSibling = item.nextSibling;
+      item.remove();
+      scheduleDraftSave();
+      showUndoToast("Photo removed", () => {
+        if (nextSibling && nextSibling.parentElement === parent) parent.insertBefore(item, nextSibling);
+        else parent.appendChild(item);
+        scheduleDraftSave();
+      });
     });
     item.appendChild(del);
   }
