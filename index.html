@@ -84,6 +84,9 @@
   </div>
 </div>
 
+<!-- Toast notifications (e.g. "Photo removed — Undo") -->
+<div id="toast-container"></div>
+
 <!-- Everything from here to the closing tag near the end of the page is the
      "content" of the site — the part Edit Mode makes editable, autosaves as
      a draft, and bundles up when you click Done. -->
@@ -162,31 +165,11 @@
   <div class="section-inner">
     <p class="eyebrow">✦ Chapter One ✦</p>
     <h2 class="section-title">Our Memories</h2>
-    <p class="section-lead">Every photo here is a little universe. Click any of them to relive it. <em>(Replace the 20 placeholders in <code>assets/images/memories/</code> with your own photos — same filenames.)</em></p>
+    <p class="section-lead">Every photo here is a little universe. In Edit Mode, click "+ Add Photo" to start building this gallery from scratch — add and remove as many as you like.</p>
 
     <div class="masonry" id="masonry-gallery" data-gallery="memories">
-      <!-- 20 memory cards. data-caption is optional and editable. -->
-      <!-- Loop-like structure repeated manually for static hosting simplicity -->
-      <figure class="masonry-item" data-caption="The day it all began"><img loading="lazy" src="assets/images/memories/mem-01.jpg" alt="Memory 1"></figure>
-      <figure class="masonry-item" data-caption="Laughing until it hurt"><img loading="lazy" src="assets/images/memories/mem-02.jpg" alt="Memory 2"></figure>
-      <figure class="masonry-item" data-caption="That spontaneous road trip"><img loading="lazy" src="assets/images/memories/mem-03.jpg" alt="Memory 3"></figure>
-      <figure class="masonry-item" data-caption="Our favorite café corner"><img loading="lazy" src="assets/images/memories/mem-04.jpg" alt="Memory 4"></figure>
-      <figure class="masonry-item" data-caption="Dressed up for no reason"><img loading="lazy" src="assets/images/memories/mem-05.jpg" alt="Memory 5"></figure>
-      <figure class="masonry-item" data-caption="Late night phone calls"><img loading="lazy" src="assets/images/memories/mem-06.jpg" alt="Memory 6"></figure>
-      <figure class="masonry-item" data-caption="Celebrating a big win"><img loading="lazy" src="assets/images/memories/mem-07.jpg" alt="Memory 7"></figure>
-      <figure class="masonry-item" data-caption="Sunset, the two of us"><img loading="lazy" src="assets/images/memories/mem-08.jpg" alt="Memory 8"></figure>
-      <figure class="masonry-item" data-caption="A birthday from years ago"><img loading="lazy" src="assets/images/memories/mem-09.jpg" alt="Memory 9"></figure>
-      <figure class="masonry-item" data-caption="Getting lost together"><img loading="lazy" src="assets/images/memories/mem-10.jpg" alt="Memory 10"></figure>
-      <figure class="masonry-item" data-caption="The trip we still talk about"><img loading="lazy" src="assets/images/memories/mem-11.jpg" alt="Memory 11"></figure>
-      <figure class="masonry-item" data-caption="Silly faces, no regrets"><img loading="lazy" src="assets/images/memories/mem-12.jpg" alt="Memory 12"></figure>
-      <figure class="masonry-item" data-caption="A quiet moment worth keeping"><img loading="lazy" src="assets/images/memories/mem-13.jpg" alt="Memory 13"></figure>
-      <figure class="masonry-item" data-caption="Dancing in the kitchen"><img loading="lazy" src="assets/images/memories/mem-14.jpg" alt="Memory 14"></figure>
-      <figure class="masonry-item" data-caption="Our tradition, every year"><img loading="lazy" src="assets/images/memories/mem-15.jpg" alt="Memory 15"></figure>
-      <figure class="masonry-item" data-caption="Through the hard days too"><img loading="lazy" src="assets/images/memories/mem-16.jpg" alt="Memory 16"></figure>
-      <figure class="masonry-item" data-caption="Somewhere new, together"><img loading="lazy" src="assets/images/memories/mem-17.jpg" alt="Memory 17"></figure>
-      <figure class="masonry-item" data-caption="The photo that says it all"><img loading="lazy" src="assets/images/memories/mem-18.jpg" alt="Memory 18"></figure>
-      <figure class="masonry-item" data-caption="Just an ordinary perfect day"><img loading="lazy" src="assets/images/memories/mem-19.jpg" alt="Memory 19"></figure>
-      <figure class="masonry-item" data-caption="More memories to come"><img loading="lazy" src="assets/images/memories/mem-20.jpg" alt="Memory 20"></figure>
+      <!-- Starts empty on purpose. Open Edit Mode (pencil icon) and use the
+           "+ Add Photo" tile to add every photo yourself, one at a time. -->
     </div>
   </div>
 </section>
@@ -266,26 +249,7 @@
     <p class="eyebrow">✦ Always in Bloom ✦</p>
     <h2 class="section-title">Favorite Flowers</h2>
     <div class="card-grid flower-grid" data-gallery="flowers">
-      <div class="flip-flower-card">
-        <img loading="lazy" src="assets/images/flowers/roses.jpg" alt="Roses">
-        <div class="flower-info"><h3>Roses</h3><p>Timeless, romantic, and endlessly elegant — just like you.</p></div>
-      </div>
-      <div class="flip-flower-card">
-        <img loading="lazy" src="assets/images/flowers/tulips.jpg" alt="Tulips">
-        <div class="flower-info"><h3>Tulips</h3><p>Graceful and bright, a quiet kind of joy.</p></div>
-      </div>
-      <div class="flip-flower-card">
-        <img loading="lazy" src="assets/images/flowers/peonies.jpg" alt="Peonies">
-        <div class="flower-info"><h3>Peonies</h3><p>Lush, romantic, and full of soft luxury.</p></div>
-      </div>
-      <div class="flip-flower-card">
-        <img loading="lazy" src="assets/images/flowers/hydrangeas.jpg" alt="Hydrangeas">
-        <div class="flower-info"><h3>Hydrangeas</h3><p>Dreamy clusters of color, gentle and abundant.</p></div>
-      </div>
-      <div class="flip-flower-card">
-        <img loading="lazy" src="assets/images/flowers/babys-breath.jpg" alt="Baby's Breath">
-        <div class="flower-info"><h3>Baby's Breath</h3><p>Delicate, understated, quietly beautiful.</p></div>
-      </div>
+      <!-- Starts empty — use "+ Add Photo" in Edit Mode. -->
     </div>
   </div>
 </section>
@@ -322,10 +286,7 @@
     <h2 class="section-title">Kurdish Elegance</h2>
     <p class="section-lead">Celebrating the beauty and grace of Kurdish traditional dress.</p>
     <div class="card-grid kurdish-grid" data-gallery="kurdish">
-      <figure class="kurdish-card"><img loading="lazy" src="assets/images/kurdish/kurdish-1.jpg" alt="Kurdish traditional dress 1"><figcaption>Traditional Elegance I</figcaption></figure>
-      <figure class="kurdish-card"><img loading="lazy" src="assets/images/kurdish/kurdish-2.jpg" alt="Kurdish traditional dress 2"><figcaption>Traditional Elegance II</figcaption></figure>
-      <figure class="kurdish-card"><img loading="lazy" src="assets/images/kurdish/kurdish-3.jpg" alt="Kurdish traditional dress 3"><figcaption>Traditional Elegance III</figcaption></figure>
-      <figure class="kurdish-card"><img loading="lazy" src="assets/images/kurdish/kurdish-4.jpg" alt="Kurdish traditional dress 4"><figcaption>Traditional Elegance IV</figcaption></figure>
+      <!-- Starts empty — use "+ Add Photo" in Edit Mode. -->
     </div>
   </div>
   <div class="kurdish-pattern-bottom" aria-hidden="true"></div>
@@ -342,9 +303,7 @@
     <p class="eyebrow">✦ Wild at Heart ✦</p>
     <h2 class="section-title light">Horses</h2>
     <div class="card-grid horse-grid" data-gallery="horses">
-      <figure class="horse-card"><img loading="lazy" src="assets/images/horses/horse-1.jpg" alt="Horse 1"></figure>
-      <figure class="horse-card"><img loading="lazy" src="assets/images/horses/horse-2.jpg" alt="Horse 2"></figure>
-      <figure class="horse-card"><img loading="lazy" src="assets/images/horses/horse-3.jpg" alt="Horse 3"></figure>
+      <!-- Starts empty — use "+ Add Photo" in Edit Mode. -->
     </div>
     <blockquote class="horse-quote">"Grace, freedom, and strength."</blockquote>
   </div>
@@ -358,23 +317,7 @@
     <p class="eyebrow">✦ Impeccable Taste ✦</p>
     <h2 class="section-title">Luxury Fashion Houses</h2>
     <div class="card-grid brand-grid" data-gallery="brands">
-
-      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/louis-vuitton-logo.png" alt="Louis Vuitton logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/louis-vuitton.jpg" alt="Louis Vuitton"><h3>Louis Vuitton</h3><p>The house of iconic trunks and timeless monogram artistry.</p></div>
-
-      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/gucci-logo.png" alt="Gucci logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/gucci.jpg" alt="Gucci"><h3>Gucci</h3><p>Bold, eclectic, unapologetically glamorous Italian luxury.</p></div>
-
-      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/chanel-logo.png" alt="Chanel logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/chanel.jpg" alt="Chanel"><h3>Chanel</h3><p>Parisian elegance, refined and eternally chic.</p></div>
-
-      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/dior-logo.png" alt="Dior logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/dior.jpg" alt="Dior"><h3>Dior</h3><p>Couture romance and architectural femininity.</p></div>
-
-      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/hermes-logo.png" alt="Hermès logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/hermes.jpg" alt="Hermès"><h3>Hermès</h3><p>Quiet luxury, masterful craftsmanship, understated prestige.</p></div>
-
-      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/prada-logo.png" alt="Prada logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/prada.jpg" alt="Prada"><h3>Prada</h3><p>Intellectual, minimal, quietly rebellious luxury.</p></div>
-
-      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/valentino-logo.png" alt="Valentino logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/valentino.jpg" alt="Valentino"><h3>Valentino</h3><p>Romantic Roman couture, dramatic and dreamlike.</p></div>
-
-      <div class="brand-card"><div class="brand-logo"><img loading="lazy" src="assets/images/brands/ysl-logo.png" alt="YSL logo"></div><img class="brand-image" loading="lazy" src="assets/images/brands/ysl.jpg" alt="Yves Saint Laurent"><h3>Yves Saint Laurent</h3><p>Sleek, rebellious, effortlessly powerful style.</p></div>
-
+      <!-- Starts empty — use "+ Add Photo" in Edit Mode. -->
     </div>
   </div>
 </section>
@@ -387,18 +330,7 @@
     <p class="eyebrow">✦ Signature Scents ✦</p>
     <h2 class="section-title">Perfume Collection</h2>
     <div class="card-grid perfume-grid" data-gallery="perfumes">
-
-      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/louis-vuitton.jpg" alt="Louis Vuitton perfume"><h3>Louis Vuitton</h3><p class="fragrance-family">Floral / Oriental</p></div>
-      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/gucci.jpg" alt="Gucci perfume"><h3>Gucci</h3><p class="fragrance-family">Floral / Woody</p></div>
-      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/dior.jpg" alt="Dior perfume"><h3>Dior</h3><p class="fragrance-family">Oriental / Vanilla</p></div>
-      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/chanel.jpg" alt="Chanel perfume"><h3>Chanel</h3><p class="fragrance-family">Floral Aldehyde</p></div>
-      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/tom-ford.jpg" alt="Tom Ford perfume"><h3>Tom Ford</h3><p class="fragrance-family">Amber / Spicy</p></div>
-      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/mfk.jpg" alt="Maison Francis Kurkdjian perfume"><h3>Maison Francis Kurkdjian</h3><p class="fragrance-family">Musk / Floral</p></div>
-      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/creed.jpg" alt="Creed perfume"><h3>Creed</h3><p class="fragrance-family">Fruity / Woody</p></div>
-      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/byredo.jpg" alt="Byredo perfume"><h3>Byredo</h3><p class="fragrance-family">Minimalist / Woody</p></div>
-      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/xerjoff.jpg" alt="Xerjoff perfume"><h3>Xerjoff</h3><p class="fragrance-family">Opulent / Oriental</p></div>
-      <div class="perfume-card"><img loading="lazy" src="assets/images/perfumes/parfums-de-marly.jpg" alt="Parfums de Marly perfume"><h3>Parfums de Marly</h3><p class="fragrance-family">Royal / Floral</p></div>
-
+      <!-- Starts empty — use "+ Add Photo" in Edit Mode. -->
     </div>
   </div>
 </section>
@@ -531,11 +463,7 @@
     <h2 class="section-title">Memory Wall</h2>
     <p class="section-lead">Add photos, notes, and screenshots below — each one styled like a pinned Polaroid.</p>
     <div class="polaroid-board" data-gallery="polaroids">
-      <div class="polaroid p-rot-1"><img loading="lazy" src="assets/images/memories/mem-05.jpg" alt="Polaroid memory"><p>"Best day ever" — add your note</p></div>
-      <div class="polaroid p-rot-2"><img loading="lazy" src="assets/images/memories/mem-08.jpg" alt="Polaroid memory"><p>Add a funny story here</p></div>
-      <div class="polaroid p-rot-3"><img loading="lazy" src="assets/images/memories/mem-12.jpg" alt="Polaroid memory"><p>A favorite screenshot / memory</p></div>
-      <div class="polaroid p-rot-4"><img loading="lazy" src="assets/images/memories/mem-15.jpg" alt="Polaroid memory"><p>Small note goes here ✦</p></div>
-      <div class="polaroid p-rot-5"><img loading="lazy" src="assets/images/memories/mem-18.jpg" alt="Polaroid memory"><p>Another memory worth keeping</p></div>
+      <!-- Starts empty — use "+ Add Photo" in Edit Mode. -->
     </div>
   </div>
 </section>
